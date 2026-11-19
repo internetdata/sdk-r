@@ -1,0 +1,4 @@
+export(internetdata_client)
+S3method(print,internetdata_client)
+S3method(print,internetdata_error)
+S3method(conditionMessage,internetdata_error)

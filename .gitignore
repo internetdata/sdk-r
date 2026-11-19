@@ -1,0 +1,5 @@
+# R CMD build and check output.
+/internetdata_*.tar.gz
+/internetdata.Rcheck/
+.Rhistory
+.RData
