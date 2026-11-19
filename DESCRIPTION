@@ -3,7 +3,8 @@ Type: Package
 Title: Client for the 'InternetData' API
 Version: 1.0.0
 Authors@R: c(
-    person("Mslm Dev", email = "support@internetdata.io", role = c("aut", "cre", "cph")))
+    person("Uman", "Shahzad", email = "uman@internetdata.io", role = c("aut", "cre")),
+    person("Mslm Dev", role = "cph"))
 Description: Looks up what the 'InternetData' API <https://internetdata.io>
     says about an IP address, an autonomous system or a domain: where an
     address is, which network and company it belongs to, and whether it is a
