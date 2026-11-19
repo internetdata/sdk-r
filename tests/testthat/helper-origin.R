@@ -48,7 +48,19 @@ origin_app <- function() {
             ips <- unlist(jsonlite::parse_json(rawToChar(req$.body))$ips)
             answered <- setdiff(ips, names(answer$fail))
             answer$body <- list(
-                results = stats::setNames(lapply(answered, function(ip) list(ip = ip, is_vpn = FALSE)), answered),
+                results = stats::setNames(lapply(answered, function(ip) {
+                    empty <- structure(list(), names = character(0))
+                    list(ip = ip, is_bogon = FALSE, is_tor = FALSE, is_relay = FALSE, is_anycast = FALSE,
+                        is_carrier = FALSE, is_satellite = FALSE, is_ssh = FALSE, is_smtp = FALSE, is_web = FALSE,
+                        is_dns_resolver = FALSE, is_bittorrent = FALSE, tor = empty, relay = empty,
+                        location = as.list(stats::setNames(rep("", 10), c("continent", "continent_name", "country",
+                            "country_name", "timezone", "currency_code", "currency_name", "currency_symbol", "flag_emoji",
+                            "flag_unicode"))),
+                        asn = list(asn = 15169L, name = "Google LLC", domain = "google.com", type = "hosting",
+                            prefix = "8.8.8.0/24"),
+                        company = list(name = "Google LLC", domain = "google.com"), hostname = "",
+                        abuse = list(email = "network-abuse@google.com"))
+                }), answered),
                 errors = answer$fail[intersect(names(answer$fail), ips)]
             )
             for (m in c("results", "errors")) {

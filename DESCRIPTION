@@ -4,10 +4,13 @@ Title: Client for the 'InternetData' API
 Version: 1.0.0
 Authors@R: c(
     person("Mslm Dev", email = "support@internetdata.io", role = c("aut", "cre", "cph")))
-Description: The official client for the 'InternetData' API
-    <https://internetdata.io>. Failed requests are retried as the API's
-    'Retry-After' asks, and every answer is checked against the API's published
-    specification before it is handed back.
+Description: Looks up what the 'InternetData' API <https://internetdata.io>
+    says about an IP address: where it is, which network and company it
+    belongs to, and whether it is a VPN, proxy, Tor node or hosting server.
+    Reserved addresses are answered locally, answers are cached per client, a
+    batch of any size is sent in chunks the API accepts, failed requests are
+    retried as the API's 'Retry-After' asks, and every answer is checked
+    against the API's published specification before it is handed back.
 License: MIT + file LICENSE
 URL: https://internetdata.io, https://docs.internetdata.io,
     https://github.com/internetdata/sdk-r
@@ -17,6 +20,7 @@ Depends: R (>= 4.1.0)
 Imports:
     curl (>= 5.0.0),
     jsonlite (>= 1.8.0),
+    stats,
     utils
 Suggests:
     testthat (>= 3.0.0),
