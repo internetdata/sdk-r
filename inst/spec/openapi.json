@@ -9,7 +9,7 @@
       "url": "https://internetdata.io"
     },
     "termsOfService": "https://internetdata.io/terms",
-    "version": "2026.11.17"
+    "version": "2026.11.19"
   },
   "servers": [
     {
@@ -116,7 +116,7 @@
         ],
         "operationId": "downloadDatabaseV2",
         "summary": "Download",
-        "description": "Answers `302`; the bytes come straight from object storage rather than\nthrough this API. Follow the redirect.\n",
+        "description": "Downloads one file of a database: the answer is a `302` to time-limited\nobject storage, so follow the redirect.\n\nThe bytes come straight from object storage rather than through this API.\n",
         "security": [
           {
             "ApiKeyQueryAuth": []
@@ -321,7 +321,7 @@
         ],
         "operationId": "listDownloads",
         "summary": "History",
-        "description": "Refusals are listed too: a denial is what answers \"it stopped working\",\nand its absence answers nothing.\n",
+        "description": "Lists your organization's recent database downloads, newest first,\nrefused ones included, so a download that stopped working shows why.\n",
         "security": [
           {
             "ApiKeyQueryAuth": []
@@ -593,7 +593,7 @@
           "Organization"
         ],
         "summary": "Organization",
-        "description": "The organization this credential is scoped to.\n\nThere is no way to name a different one. A credential describes exactly\none organization, so an identifier in the path could only ever be your\nown or a refusal.\n",
+        "description": "Returns the organization the presented credential is scoped to. A\ncredential belongs to exactly one, so there is no ID to pass.\n\nAn identifier in the path could only ever be your own or a refusal.\n",
         "security": [
           {
             "BearerAuth": [
@@ -628,7 +628,7 @@
           "Organization"
         ],
         "summary": "Members",
-        "description": "Read-only. Adding or removing a member is an invitation flow with email\nin the middle rather than a POST, and modeling it as one here would\npromise something this API does not do.\n",
+        "description": "Lists the members of your organization. Adding or removing one is an\nemailed invitation in the console, not an API call.\n\nModeling it as one here would promise something this API does not do.\n",
         "security": [
           {
             "BearerAuth": [
@@ -663,7 +663,7 @@
           "API keys"
         ],
         "summary": "List",
-        "description": "Metadata only. A key's secret is never in a list - not here and not in\nthe console - because a list is the response that ends up in logs,\ncaches and support tickets.\n\n`retrievable` says whether the secret could still be read back at all.\nA key issued before this product stored secrets recoverably was never\nkept, so `reveal` will refuse it permanently; rotating produces one\nthat can be read.\n",
+        "description": "Lists your organization's API keys with their metadata, never a secret:\nonly Create, Rotate and Reveal return one.\n\nA secret is never in a list, here or in the console, because a list is\nthe response that ends up in logs, caches and support tickets.\n\n`retrievable` says whether the secret could still be read back at all.\nA key issued before this product stored secrets recoverably was never\nkept, so `reveal` will refuse it permanently; rotating produces one\nthat can be read.\n",
         "security": [
           {
             "BearerAuth": [
@@ -696,7 +696,7 @@
           "API keys"
         ],
         "summary": "Create",
-        "description": "Creates a key and returns its secret.\n\nThis is the only response that ever carries the secret, and only\nbecause this is the moment it comes into existence. Store it now.\n",
+        "description": "Creates an API key and returns its secret, which no list ever shows:\nkeep it, or reveal it again later.\n",
         "security": [
           {
             "BearerAuth": [
