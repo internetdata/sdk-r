@@ -15,7 +15,7 @@ Requires R 4.1 or newer. [curl](https://cran.r-project.org/package=curl) and [js
 
 ## Usage
 
-No API key is needed to start. Unlimited, the free plan, answers `location`, `asn`, `company`, `abuse` and every flag but the VPN, proxy, hosting and CDN ones, limited per address per minute.
+No API key is needed to start. Unlimited, the free plan, answers `location`, `asn`, `company`, `abuse` and every flag but the VPN, proxy, hosting and CDN ones, with no daily or monthly cap.
 
 ```r
 library(internetdata)
