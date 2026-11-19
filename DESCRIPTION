@@ -5,8 +5,9 @@ Version: 1.0.0
 Authors@R: c(
     person("Mslm Dev", email = "support@internetdata.io", role = c("aut", "cre", "cph")))
 Description: Looks up what the 'InternetData' API <https://internetdata.io>
-    says about an IP address: where it is, which network and company it
-    belongs to, and whether it is a VPN, proxy, Tor node or hosting server.
+    says about an IP address, an autonomous system or a domain: where an
+    address is, which network and company it belongs to, and whether it is a
+    VPN, proxy, Tor node or hosting server.
     Reserved addresses are answered locally, answers are cached per client, a
     batch of any size is sent in chunks the API accepts, failed requests are
     retried as the API's 'Retry-After' asks, and every answer is checked

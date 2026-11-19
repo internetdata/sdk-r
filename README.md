@@ -45,6 +45,15 @@ answer$location$city  # "Vienna", on a paid plan
 
 The key is optional: leave it out, or pass an empty one, and no `Authorization` header is sent at all.
 
+### AS numbers and domains
+
+```r
+client$lookup_asn(9009)$name                 # "M247 Europe SRL"
+client$lookup_domain("example.com")$has_mx   # TRUE
+```
+
+Unlimited answers an AS's registration, and whether a domain is registered and which record types it has. A paid plan adds the AS's Whois record, prefixes, rank, Tier 1 flag, upstreams, peers, downstreams and hosted domains, and the domain's records, IP ranges and whether it is disposable. Neither is cached or batched.
+
 ### Your own address
 
 ```r

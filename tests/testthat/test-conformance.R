@@ -21,10 +21,16 @@ test_that("every errors case is classified as the corpus says, and sent as often
 test_that("every lookup case reads present members as served and absent ones as absent", {
     read <- 0
     for (case in corpus()$lookup) {
-        # The AS and domain lookups are not in this client yet; their cases wait for them.
-        if (case$call != "lookup") next
         script(list(status = case$status, body = case$body))
-        result <- test_client(cache_size = 0)$lookup(case$target)
+        client <- test_client(cache_size = 0)
+        result <- switch(case$call,
+            lookup = client$lookup(case$target),
+            lookupAsn = client$lookup_asn(case$target),
+            lookupDomain = client$lookup_domain(case$target),
+            stop("no call ", case$call))
+        expected_path <- switch(case$call, lookup = paste0("/", case$target),
+            lookupAsn = paste0("/asn/", case$target), lookupDomain = paste0("/domain/", case$target))
+        expect_identical(served()[[1]]$path, expected_path, label = case$name)
         e <- case$expect
         for (member in names(e$present)) {
             expect_identical(result[[member]], e$present[[member]], label = paste(case$name, member))
@@ -46,7 +52,7 @@ test_that("every lookup case reads present members as served and absent ones as 
         }
         read <- read + 1
     }
-    expect_equal(read, 6)
+    expect_equal(read, 12)
 })
 
 test_that("is_bogon agrees with every corpus claim", {

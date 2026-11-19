@@ -37,6 +37,23 @@ internetdata_client <- function(api_key = NULL, base_url = NULL, timeout = 30, r
             state$cache$set(address, result)
             result
         },
+        # An AS and a domain are sent as given and not cached: the API refuses what it cannot read.
+        lookup_asn = function(asn, timeout = NULL, retries = NULL) {
+            opts <- client_options(state, "lookup_asn", timeout, retries)
+            if (!is.numeric(asn) || length(asn) != 1 || is.na(asn)) {
+                refuse("lookup_asn: asn must be one number")
+            }
+            call_api(state, paste0("/asn/", format(asn, scientific = FALSE, trim = TRUE)), opts$timeout,
+                opts$retries, read_as("AsnLookupResponse"))
+        },
+        lookup_domain = function(domain, timeout = NULL, retries = NULL) {
+            opts <- client_options(state, "lookup_domain", timeout, retries)
+            if (!is.character(domain) || length(domain) != 1 || is.na(domain) || !nzchar(domain)) {
+                refuse("lookup_domain: domain must be one non-empty string")
+            }
+            call_api(state, paste0("/domain/", curl::curl_escape(domain)), opts$timeout, opts$retries,
+                read_as("DomainLookupResponse"))
+        },
         my_ip = function(timeout = NULL, retries = NULL) {
             opts <- client_options(state, "my_ip", timeout, retries)
             call_api(state, "/myip", opts$timeout, opts$retries, read_as("LookupResponse"))

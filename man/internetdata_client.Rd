@@ -32,6 +32,12 @@ A reserved address is answered locally, with \code{is_bogon} \code{TRUE}.}
 list, one entry per distinct address, in input order. An address that failed holds its
 \code{internetdata_error} rather than failing the batch. Any number of addresses is sent in chunks
 of 1000.}
+\item{\code{lookup_asn(asn, timeout = NULL, retries = NULL)}}{What the API knows about one
+autonomous system, by its number: its registration on every plan, and on a paid one its Whois
+record, prefixes, rank and neighbors. Sent as given and not cached.}
+\item{\code{lookup_domain(domain, timeout = NULL, retries = NULL)}}{What the API knows about one
+domain: whether it is registered and which record types it has on every plan, and on a paid one
+the records themselves, its IP ranges and whether it is disposable. Sent as given and not cached.}
 \item{\code{my_ip(timeout = NULL, retries = NULL)}}{The answer for the address you are calling
 from. Never cached.}
 \item{\code{my_entitlement(timeout = NULL, retries = NULL)}}{What your API key may spend: its
