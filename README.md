@@ -32,7 +32,7 @@ The answer is the API's JSON as a list, and a member the API adds later simply a
 
 ### With an API key
 
-Every paid plan answers every field: the VPN, proxy, hosting and CDN flags, the detail behind each flag, the city, the Whois records and more. The plans differ only in how many lookups they include, and a free account tries every field, 100 lookups a day. Create a key in the [console](https://app.internetdata.io), then pass it in:
+Every paid plan answers every field: the VPN, proxy, hosting and CDN flags, the detail behind each flag, the city, the Whois records and more. The plans differ only in how many lookups they include, and a free account tries every field. Create a key in the [console](https://app.internetdata.io), then pass it in:
 
 ```r
 client <- internetdata_client(api_key = Sys.getenv("INTERNETDATA_API_KEY"))
@@ -124,7 +124,7 @@ The timeout is in seconds and applies to each attempt, body included, so a retri
 
 ### Absent is not false
 
-Unlimited leaves out `is_vpn`, the four proxy flags, `is_hosting` and `is_cdn`, the detail behind every flag but Tor's and relay's, the Whois records and `hosted_domains`, and inside `location` the city, region and coordinates. A free-plan key's answer carries `trial_expired`, `TRUE` once its daily trial is spent, and a paid key's carries `cap_reached`, `TRUE` once its organization's overage cap is reached. A member your plan leaves out is absent from the list, never `FALSE`:
+Unlimited leaves out `is_vpn`, the four proxy flags, `is_hosting` and `is_cdn`, the detail behind every flag but Tor's and relay's, the Whois records and `hosted_domains`, and inside `location` the city, region and coordinates. A free-plan key's answer carries `trial_expired`, `TRUE` once its trial is spent, and a paid key's carries `cap_reached`, `TRUE` once its organization's overage cap is reached. A member your plan leaves out is absent from the list, never `FALSE`:
 
 ```r
 isTRUE(answer$is_vpn)  # when you only want the flag
