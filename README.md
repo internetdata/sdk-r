@@ -72,7 +72,7 @@ account$usage$requests   # 580
 account$usage$window_end # when the allowance resets
 ```
 
-Show `name` and compare against `key`: a plan's name can change, and its key never does. Usage counts against the anniversary of your subscription on a paid plan and against the UTC day on the free plan. `hard_limit` is `NULL` on an uncapped plan, which is not the same as zero.
+Show `name` and compare against `key`: a plan's name can change, and its key never does. Usage counts against the anniversary of your subscription on a paid plan and against its trial on the free plan. `hard_limit` is `NULL` on an uncapped plan, which is not the same as zero.
 
 ### Batch lookup
 
