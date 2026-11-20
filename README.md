@@ -52,7 +52,7 @@ client$lookup_asn(9009)$name                 # "M247 Europe SRL"
 client$lookup_domain("example.com")$has_mx   # TRUE
 ```
 
-Unlimited answers an AS's registration, and whether a domain is registered and which record types it has. A paid plan adds the AS's Whois record, prefixes, rank, Tier 1 flag, upstreams, peers, downstreams and hosted domains, and the domain's records, IP ranges and whether it is disposable. Neither is cached or batched.
+Unlimited answers an AS's registration, and whether a domain is registered and which record types it has. A paid plan adds the AS's Whois record, prefixes, rank, Tier 1 flag, upstreams, peers, downstreams and hosted domains, and the domain's records, the network announcing each of its addresses, the other domains on its first IPv4 address, IP ranges, whether it is disposable, what its home page says and links to, and the domains whose home page redirects or links to it. Neither is cached or batched.
 
 ### Your own address
 
