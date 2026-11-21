@@ -1,7 +1,7 @@
 # [<img src="https://s3.internetdata.io/internetdata-public/brand/mark.svg" alt="InternetData" height="28"/>](https://internetdata.io/) InternetData R Client Library
 
 [![CRAN](https://www.r-pkg.org/badges/version/internetdata)](https://cran.r-project.org/package=internetdata)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/internetdata/sdk-r/blob/main/LICENSE.md)
 
 The official R client library for the [InternetData](https://internetdata.io) API.
 
@@ -147,4 +147,4 @@ Geolocation, anonymity, ownership, network, service and domain data for any IP a
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is licensed under the [MIT License](https://github.com/internetdata/sdk-r/blob/main/LICENSE.md).
