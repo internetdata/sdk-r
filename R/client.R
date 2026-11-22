@@ -223,10 +223,10 @@ batch_entry <- function(json, address, state) {
 }
 
 flags <- c("is_vpn", "is_tor", "is_relay", "is_resproxy", "is_dcproxy", "is_mobproxy", "is_pubproxy",
-    "is_hosting", "is_cdn", "is_anycast", "is_carrier", "is_satellite", "is_ssh", "is_smtp", "is_web",
-    "is_dns_resolver", "is_bittorrent")
+    "is_hosting", "is_cdn", "is_bot", "is_anycast", "is_carrier", "is_satellite", "is_ssh", "is_smtp",
+    "is_web", "is_dns_resolver", "is_bittorrent")
 details <- c("vpn", "tor", "relay", "resproxy", "dcproxy", "mobproxy", "pubproxy", "hosting", "cdn",
-    "carrier", "satellite", "ssh", "smtp", "web", "dns_resolver", "bittorrent")
+    "bot", "carrier", "satellite", "ssh", "smtp", "web", "dns_resolver", "bittorrent")
 
 # A reserved address is answered here, never sent, in the shape the API answers one on a paid plan:
 # every flag false, every detail empty (web's list empty), location, asn, company, abuse, whois and

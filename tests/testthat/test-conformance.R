@@ -52,7 +52,7 @@ test_that("every lookup case reads present members as served and absent ones as 
         }
         read <- read + 1
     }
-    expect_equal(read, 12)
+    expect_equal(read, 13)
 })
 
 test_that("is_bogon agrees with every corpus claim", {
