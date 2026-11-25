@@ -32,7 +32,7 @@ The answer is the API's JSON as a list, and a member the API adds later simply a
 
 ### With an API key
 
-Every paid plan answers every field: the VPN, proxy, hosting and CDN flags, the detail behind each flag (`bot` names whose bot uses the address), the city, the Whois records and more. The plans differ only in how many lookups they include, and a free account tries every field. Create a key in the [console](https://app.internetdata.io), then pass it in:
+A paid plan answers every field: the VPN, proxy, hosting and CDN flags, the detail behind each flag (`bot` names whose bot uses the address), the city, the Whois records and more. Its quotas differ only in how many lookups they include, and a free account tries every field. Create a key in the [console](https://app.internetdata.io), then pass it in:
 
 ```r
 client <- internetdata_client(api_key = Sys.getenv("INTERNETDATA_API_KEY"))
@@ -66,8 +66,8 @@ Same answer `lookup` would give for that address, and the same cost against your
 
 ```r
 account <- client$my_entitlement()
-account$plan$key         # "starter"
-account$plan$name        # "Starter", the name to show
+account$plan$key         # "data_4"
+account$plan$name        # "Data", the name to show
 account$usage$requests   # 580
 account$usage$window_end # when the allowance resets
 ```
