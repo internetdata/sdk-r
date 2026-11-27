@@ -15,7 +15,7 @@ Requires R 4.1 or newer. [curl](https://cran.r-project.org/package=curl) and [js
 
 ## Usage
 
-No API key is needed to start. Unlimited, the free plan, answers `location`, `asn`, `company`, `abuse` and every flag but the VPN, proxy, hosting and CDN ones, with no daily or monthly cap.
+No API key is needed to start. Unlimited, the free plan, answers `is_tor`, `is_relay` and `is_anycast`, `location`, `asn`, `company`, `abuse` and the `hostname`, with no daily or monthly cap.
 
 ```r
 library(internetdata)
@@ -124,7 +124,7 @@ The timeout is in seconds and applies to each attempt, body included, so a retri
 
 ### Absent is not false
 
-Unlimited leaves out `is_vpn`, the four proxy flags, `is_hosting` and `is_cdn`, the detail behind every flag but Tor's and relay's, the Whois records and `hosted_domains`, and inside `location` the city, region and coordinates. A free-plan key's answer carries `trial_expired`, `TRUE` once its trial is spent, and a paid key's carries `cap_reached`, `TRUE` once its organization's overage cap is reached. A member your plan leaves out is absent from the list, never `FALSE`:
+Unlimited leaves out `is_vpn`, the four proxy flags, `is_hosting`, `is_cdn`, `is_bot`, `is_carrier`, `is_satellite` and the five service flags (`is_ssh`, `is_smtp`, `is_web`, `is_dns_resolver` and `is_bittorrent`), the detail behind every flag but Tor's and relay's, the Whois records, `hosted_domains` and `asn$type`, and inside `location` the city, region and coordinates. A free-plan key's answer carries `trial_expired`, `TRUE` once its trial is spent, and a paid key's carries `cap_reached`, `TRUE` once its organization's overage cap is reached. A member your plan leaves out is absent from the list, never `FALSE`:
 
 ```r
 isTRUE(answer$is_vpn)  # when you only want the flag

@@ -161,6 +161,90 @@ test_that("a 2xx no call can read is a retried server_error carrying the status"
     }
 })
 
+test_that("a keyless answer without the paid flags or asn$type is read, as a lookup, my_ip and a batch entry", {
+    lean <- answer_body("8.8.8.8")
+    expect_false(any(paid_flags %in% names(lean)))
+    expect_false("type" %in% names(lean$asn))
+    for (call in c("lookup", "my_ip", "lookup_batch")) {
+        if (call == "lookup_batch") {
+            script(list(status = 200, body = list(results = list(`8.8.8.8` = lean),
+                errors = structure(list(), names = character(0)))))
+        } else {
+            script(list(status = 200, body = lean))
+        }
+        client <- test_client(cache_size = 0)
+        result <- switch(call,
+            lookup = client$lookup("8.8.8.8"),
+            my_ip = client$my_ip(),
+            lookup_batch = client$lookup_batch("8.8.8.8")[["8.8.8.8"]])
+        expect_false(inherits(result, "internetdata_error"), label = call)
+        expect_identical(names(result), names(lean), label = call)
+        expect_false(any(paid_flags %in% names(result)), label = call)
+        expect_null(result$asn$type, label = call)
+        expect_identical(result$asn$asn, 15169L, label = call)
+        expect_length(served(), 1)
+    }
+    # A paid answer carries them, and they come back as served.
+    paid <- answer_body("8.8.8.8")
+    paid[paid_flags] <- FALSE
+    paid$asn$type <- "hosting"
+    script(list(status = 200, body = paid))
+    result <- test_client(cache_size = 0)$lookup("8.8.8.8")
+    for (flag in paid_flags) expect_false(result[[flag]], label = flag)
+    expect_identical(result$asn$type, "hosting")
+})
+
+test_that("a domain's hosting rows are read without asn$type", {
+    case <- Filter(function(c) c$name == "domain-paid-answer", corpus()$lookup)[[1]]
+    body <- case$body
+    expect_gt(length(body$hosting), 0)
+    for (i in seq_along(body$hosting)) body$hosting[[i]]$asn$type <- NULL
+    script(list(status = 200, body = body))
+    result <- test_client()$lookup_domain(case$target)
+    expect_length(result$hosting, length(body$hosting))
+    for (row in result$hosting) expect_false("type" %in% names(row$asn))
+    body$hosting[[1]]$asn["type"] <- list(1L)
+    script(list(status = 200, body = body))
+    expect_s3_class(caught(test_client(retries = 0)$lookup_domain(case$target)),
+        "internetdata_server_error")
+})
+
+test_that("a paid flag or asn$type that is present and null or of the wrong type is still refused", {
+    refused <- function(body, call) {
+        if (call == "lookup") {
+            script(list(status = 200, body = body))
+            caught(test_client(retries = 0, cache_size = 0)$lookup("8.8.8.8"))
+        } else {
+            script(list(status = 200, body = list(results = list(`8.8.8.8` = body),
+                errors = structure(list(), names = character(0)))))
+            r <- test_client(retries = 0, cache_size = 0)$lookup_batch("8.8.8.8")[["8.8.8.8"]]
+            if (inherits(r, "internetdata_error")) r else NULL
+        }
+    }
+    for (call in c("lookup", "lookup_batch")) {
+        for (flag in paid_flags) {
+            for (bad in list("yes", NULL, 1L, list())) {
+                body <- answer_body("8.8.8.8")
+                body[flag] <- list(bad)
+                e <- refused(body, call)
+                expect_s3_class(e, "internetdata_server_error")
+                expect_identical(e$status, 200L, label = paste(call, flag, deparse(bad)))
+                expect_match(conditionMessage(e), paste0("$", flag, " is "), fixed = TRUE,
+                    label = paste(call, flag, deparse(bad)))
+            }
+        }
+        for (bad in list(NULL, 1L, TRUE, list())) {
+            body <- answer_body("8.8.8.8")
+            body$asn["type"] <- list(bad)
+            e <- refused(body, call)
+            expect_s3_class(e, "internetdata_server_error")
+            expect_identical(e$status, 200L, label = paste(call, "asn$type", deparse(bad)))
+            expect_match(conditionMessage(e), "$asn$type is ", fixed = TRUE,
+                label = paste(call, "asn$type", deparse(bad)))
+        }
+    }
+})
+
 test_that("a 4xx whose body is not the API's is classified by its status and sent once", {
     for (case in list(list(401, "unauthorized"), list(403, "forbidden"), list(429, "quota_exceeded"),
         list(400, "bad_request"))) {
